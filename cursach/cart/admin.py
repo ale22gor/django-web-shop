@@ -4,7 +4,7 @@ from django.utils.datetime_safe import datetime
 from cart.models import  Cart, Entry
 
 
-class CartAdmin(admin.ModelAdmin):
+class EntryAdmin(admin.ModelAdmin):
     # Overide of the save model
     def save_model(self, request, obj, form, change):
         obj.cart.total += obj.quantity * obj.product.Price
@@ -15,4 +15,4 @@ class CartAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Cart)
-admin.site.register(Entry, CartAdmin)
+admin.site.register(Entry, EntryAdmin)

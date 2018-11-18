@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 
 from .models import Cart, Entry
 from products.models import Film
+from decimal import Decimal
+
 
 # Create your views here.
 
@@ -22,16 +24,27 @@ def cart_home(request):
 
 def cart_update(request):
 	cart_obj, new_obj = Cart.objects.new_or_get(request)
-    cart_obj_current_entries = Entry.objects.filter(cart=cart_obj)
-    products = Product.objects.all()
-    if request.POST:
-		product_id = request.POST.get('product_id')
-		product_obj = Product.objects.get(id=product_id)
-		product_quantity = request.POST.get('product_quantity')
+	cart_obj_current_entries = Entry.objects.filter(cart=cart_obj)
+	products = Film.objects.all()
+	if request.POST:
+		product_id = request.POST.get('id')
+		product_obj = Film.objects.get(pk=product_id)
+		product_quantity = request.POST.get('quantity')
 		qs = cart_obj_current_entries.filter(product = product_obj)
-		if qs == 1:
-			qs.quantity += product_quantity;
+		if qs.count() >= 1:
+			line_cost = int(product_quantity) * Decimal(product_obj.Price)
+			cart_obj.total = Decimal(cart_obj.total) + line_cost
+			cart_obj.count = int(cart_obj.count) + int(product_quantity)
+			cart_obj.save()
+			print(qs.first())
+			tmp_entry = qs.first()
+			tmp  = tmp_entry.quantity
+			tmp += int(product_quantity)
+			
+			tmp_entry.quantity = tmp
+			tmp_entry.save()
+			print(qs.first().quantity)
 		else:
 			Entry.objects.create(cart=cart_obj, product=product_obj, quantity=product_quantity)
-	return redirect(Film_obj.get_absolute_url())
+	
 	

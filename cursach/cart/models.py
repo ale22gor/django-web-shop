@@ -3,6 +3,8 @@ from django.db import models
 from products.models import Film
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from decimal import Decimal
+
 
 User = settings.AUTH_USER_MODEL
 
@@ -47,21 +49,18 @@ class Cart(models.Model):
 class Entry(models.Model):
     product = models.ForeignKey(Film, null=True, on_delete='PROTECT')
     quantity = models.PositiveIntegerField()
-    cart = models.OneToOneField(Cart, null=True, on_delete='PROTECT')
+    cart = models.ForeignKey(Cart, null=True, on_delete='PROTECT')
 
-
-
-
+def update_cart(sender, instance,update_fields = ['cart'], **kwargs):
+        if instance.pk is None:
+            line_cost = int(instance.quantity) * Decimal(instance.product.Price)
+            instance.cart.total = Decimal(instance.cart.total) + line_cost
+            instance.cart.count = int(instance.cart.count) + int(instance.quantity)
+            instance.cart.save()
+            ##instance.cart.updated = datetime.now()
+            ##instance.cart.updated = datetime.now()
     
+post_save.connect(update_cart,sender=Entry) 
 
 
-@receiver(post_save, sender=Entry)
-def update_cart(sender, instance, **kwargs):
-    try:
-        line_cost = instance.quantity * instance.product.Price
-        instance.cart.total += line_cost
-        instance.cart.count += instance.quantity
-        ##instance.cart.updated = datetime.now()
-        ##instance.cart.updated = datetime.now()
-    except Entry.DoesNotExist:
-        print('loh')
+ 

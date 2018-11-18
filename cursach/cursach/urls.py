@@ -17,8 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
 from pages.views import FilmListView, FilmDetailView
-
-
+from pages.views import BuyView
 
 from pages.views import home_view, register_view
 
@@ -27,7 +26,9 @@ urlpatterns = [
     url(r'^home/$', home_view),
 	path('accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/register$', register_view),
-    url(r'^books/$', FilmListView.as_view(), name = 'film-list'),
-    url(r'^book/(?P<pk>\d+)$', FilmDetailView.as_view(), name='book-detail'),
+    url(r'^films/$', FilmListView.as_view(), name = 'film-list'),
+    url(r'^film/(?P<pk>\d+)$', FilmDetailView.as_view(), name='book-detail'),
 	url(r'^cart/', include(('cart.urls','cart'), namespace='cart')),
+	url(r'^buy_form/$', BuyView.as_view(), name='buy_form_url'),
+
 ]

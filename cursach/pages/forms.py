@@ -1,5 +1,8 @@
 from django import forms 
 from django.contrib.auth import  get_user_model
+from cart.views import cart_update
+
+
 User = get_user_model()
 
 class RegisterForm(forms.Form):
@@ -22,3 +25,9 @@ class RegisterForm(forms.Form):
             if password2 != password:
                 raise forms.ValidationError("Password must much")
             return data 
+
+
+class BuyForm(forms.Form):
+        quantity = forms.IntegerField()
+        
+        
