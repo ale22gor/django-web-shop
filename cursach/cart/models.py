@@ -17,6 +17,7 @@ class CartManager(models.Manager):
         return self.model.objects.create(user = user_obj) 
     def new_or_get(self, request):
         cart_id = request.session.get("cart_id",None)
+        print(cart_id)
         qs = self.get_queryset().filter(id = cart_id)
         if qs.count() == 1:
             cart_obj = qs.first()
@@ -50,16 +51,24 @@ class Entry(models.Model):
     product = models.ForeignKey(Film, null=True, on_delete='PROTECT')
     quantity = models.PositiveIntegerField()
     cart = models.ForeignKey(Cart, null=True, on_delete='PROTECT')
+    
+    def __str__(self):
+        return str(self.pk)
 
 def update_cart(sender, instance,update_fields = ['cart'], **kwargs):
-        if instance.pk is None:
-            line_cost = int(instance.quantity) * Decimal(instance.product.Price)
-            instance.cart.total = Decimal(instance.cart.total) + line_cost
-            instance.cart.count = int(instance.cart.count) + int(instance.quantity)
-            instance.cart.save()
-            ##instance.cart.updated = datetime.now()
-            ##instance.cart.updated = datetime.now()
-    
+
+    list_of_entries = Entry.objects.filter(cart = instance.cart)
+    new_cart_cost = 0
+    new_cart_count = 0    
+    for x in list_of_entries:
+        new_cart_cost += int(x.quantity) * Decimal(x.product.Price)
+        new_cart_count += int(x.quantity)
+
+    instance.cart.total = new_cart_cost
+    instance.cart.count = new_cart_count
+    instance.cart.save()
+
+            
 post_save.connect(update_cart,sender=Entry) 
 
 

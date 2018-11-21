@@ -9,7 +9,7 @@
   <p><strong>Descr:</strong> {{ film.Descr }}</p>  
   
 <form  method='POST' action="{% url "buy_form_url" %}">{% csrf_token %}
-		    <input type="number" name ="id" value="film.id">
+		    <input type="hidden" name ="id" value={{ film.id }}>
         {{form}}
         <button type = 'submit' class = 'btn btn-default'>Submit</button>
 </form>  

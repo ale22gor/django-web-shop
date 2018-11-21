@@ -4,9 +4,8 @@ from .forms import RegisterForm, BuyForm
 from django.views import generic
 from django.views.generic.edit import FormView
 from products.models import Film
-from cart.models import Cart
 from django.urls import reverse
-from cart.views import cart_update
+from cart.views import cart_buy
 
 
 
@@ -58,8 +57,9 @@ class FilmDetailView(generic.DetailView):
 class BuyView(FormView):
     form_class = BuyForm
     def get_success_url(self):
-        cart_update(self.request)
+        cart_buy(self.request)
         return reverse("cart:home")
+
 
   
     
