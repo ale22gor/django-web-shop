@@ -1,4 +1,4 @@
-from django.shortcuts import render
+﻿from django.shortcuts import render
 from django.contrib.auth import  get_user_model
 from .forms import RegisterForm, BuyForm
 from django.views import generic

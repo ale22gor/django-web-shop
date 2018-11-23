@@ -1,4 +1,4 @@
-"""cursach URL Configuration
+﻿"""cursach URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
@@ -24,10 +24,10 @@ from pages.views import home_view, register_view
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^home/$', home_view),
-	path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     url(r'^accounts/register$', register_view),
     url(r'^films/$', FilmListView.as_view(), name = 'film-list'),
     url(r'^film/(?P<pk>\d+)$', FilmDetailView.as_view(), name='book-detail'),
-	url(r'^cart/', include(('cart.urls','cart'), namespace='cart')),
-	url(r'^buy_form/$', BuyView.as_view(), name='buy_form_url'),
+    url(r'^cart/', include(('cart.urls','cart'), namespace='cart')),
+    url(r'^buy_form/$', BuyView.as_view(), name='buy_form_url'),
 ]

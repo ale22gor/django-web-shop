@@ -1,4 +1,4 @@
-from django.contrib import admin
+﻿from django.contrib import admin
 from django.utils.datetime_safe import datetime
 
 from cart.models import  Cart, Entry
