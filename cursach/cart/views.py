@@ -11,20 +11,16 @@ from django.views.generic.edit import FormView
 # Create your views here.
 
 
-
-
-
-
 class CartView(generic.ListView):
     
-    model = Entry.objects.filter(cart=cart_obj)
+    model = Entry
+    print(model)
     template_name = "Cart/home.html" 
     
     def get_queryset(self):
         # original qs
         qs = super().get_queryset() 
-        cart_id = self.kwargs.cart_id
-        cart_obj = Cart.objects.filter(id=cart_id)
+        cart_obj,new_obj = Cart.objects.new_or_get(self.request)
         # filter by a variable captured from url, for example
         return qs.filter(cart=cart_obj)
 
@@ -46,7 +42,6 @@ class UpdateView(FormView):
             entry_id = request.POST.get('id')
             entry_obj = Entry.objects.get(pk=entry_id)
             entry_qunatity = request.POST.get('quantity')
-            print(entry_qunatity)
             if int(entry_qunatity) <= 0:        
                 entry_obj.delete()
             else:
@@ -56,7 +51,7 @@ class UpdateView(FormView):
    
     def get_success_url(self):
         cart_update(self.request)
-        return reverse("cart:home")
+        return reverse("cart:home", self.request)
     
 
 def cart_buy(request):

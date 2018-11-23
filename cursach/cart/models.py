@@ -22,19 +22,25 @@ class CartManager(models.Manager):
         if qs.count() == 1:
             cart_obj = qs.first()
             new_obj = False
-            if request.user.is_authenticated:
+            if request.user.is_authenticated and cart_obj.user is None:
                 cart_obj.user = request.user
                 cart_obj.save()
         else:
-            cart_obj = Cart.objects.new(user = request.user)
-            new_obj = True
-            request.session['cart_id'] = cart_obj.id
-        
+            ##нужно исправить полный пиздец мод он 
+            if(request.user.is_authenticated):
+                qs = self.get_queryset().filter(user = request.user)
+                if( qs.count() == 1 ):
+                    cart_obj = qs.first()
+                    print(request.user)
+                    new_obj = False
+            ## мод офф
+            else:
+                cart_obj = Cart.objects.new(user = request.user)
+                new_obj = True
+                request.session['cart_id'] = cart_obj.id        
         return cart_obj, new_obj
 
-class EntryManager(models.Manager):
-    def new_or_get(self,cart_id):
-        self.cart.get_queryset().filter(id = cart_id)
+
 
 
     
