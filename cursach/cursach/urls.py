@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^films/$', FilmListView.as_view(), name = 'film-list'),
     url(r'^film/(?P<pk>\d+)$', FilmDetailView.as_view(), name='book-detail'),
     url(r'^cart/', include(('cart.urls','cart'), namespace='cart')),
+    url(r'^order/', include(('order.urls','order'), namespace='order')),
     url(r'^buy_form/$', BuyView.as_view(), name='buy_form_url'),
 ]

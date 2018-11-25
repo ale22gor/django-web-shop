@@ -2,7 +2,6 @@
 from django.contrib.auth import  get_user_model
 from .forms import RegisterForm, BuyForm
 from django.views import generic
-from django.views.generic.edit import FormView
 from products.models import Film
 from django.urls import reverse
 from cart.views import cart_buy
@@ -54,19 +53,8 @@ class FilmDetailView(generic.DetailView):
         return context
     
 
-class BuyView(FormView):
+class BuyView(generic.edit.FormView):
     form_class = BuyForm
     def get_success_url(self):
         cart_buy(self.request)
         return reverse("cart:home")
-
-
-  
-    
-    
-        
-    
-        
-
-    
-    

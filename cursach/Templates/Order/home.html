@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Order</h1>
+  <p>{{user.email}} <p>
+<form  method='POST' action="{% url "order:home" %}">{% csrf_token %}
+    {{form}}
+    <button type = 'submit' class = 'btn btn-default'>Save</button>
+</form>
+
+{% endblock %}
