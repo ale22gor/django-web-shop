@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'products',
     'cart',
     'order',
+    'lk',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,11 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+'django.contrib.auth.backends.ModelBackend',
+'lk.authentication.EmailAuthBackend',
+)
 
 WSGI_APPLICATION = 'cursach.wsgi.application'
 

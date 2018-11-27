@@ -1,14 +1,9 @@
 ﻿from django.shortcuts import render
-from django.contrib.auth import  get_user_model
-from .forms import RegisterForm, BuyForm
+from .forms import BuyForm
 from django.views import generic
 from products.models import Film
 from django.urls import reverse
 from cart.views import cart_buy
-
-
-
-User = get_user_model()
 
 # Create your views here.
 
@@ -17,21 +12,6 @@ def home_view(request):
             
     }
     return render(request,'index.html', context)
-
-
-def register_view(request):
-    form = RegisterForm(request.POST or None)
-    context ={
-            'form':form
-    }
-    if form.is_valid():
-        username = form.cleaned_data.get("username")
-        email = form.cleaned_data.get("email")
-        password = form.cleaned_data.get("password")
-        User.objects.create_user(username, email, password)
-    return render(request,"register.html",context)
-
-
 
 class FilmListView(generic.ListView):
     model = Film

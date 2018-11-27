@@ -15,11 +15,11 @@ def create_order(request):
     if request.POST:
         form = OrderFormCreate(request.POST)
         if form.is_valid():
-            order = form.save
+            order = form.save()
             
             for x in cart_obj_current_entries:
                 x.delete()
-            return render(request,'Order/created.html')
+            return render(request,'Order/created.html', {'order':order})
     else:
         form = OrderFormCreate()
     return render(request,'Order/home.html',{ 'form': form, 'user': User})
