@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+CART_SESSION_ID = 'cart'
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

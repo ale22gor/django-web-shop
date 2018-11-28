@@ -3,6 +3,7 @@ from django.db import models
 from products.models import Film
 from django.db.models.signals import post_save
 from decimal import Decimal
+from django.conf import settings
 
 
 User = settings.AUTH_USER_MODEL
@@ -15,28 +16,24 @@ class CartManager(models.Manager):
                 user_obj = user
         return self.model.objects.create(user = user_obj) 
     def new_or_get(self, request):
-        cart_id = request.session.get("cart_id",None)
-        print(cart_id)
-        qs = self.get_queryset().filter(id = cart_id)
+        
+        qs = self.get_queryset().filter(user = request.user)
         if qs.count() == 1:
             cart_obj = qs.first()
             new_obj = False
-            if request.user.is_authenticated and cart_obj.user is None:
-                cart_obj.user = request.user
-                cart_obj.save()
         else:
-            ##нужно исправить полный пиздец мод он 
-            if(request.user.is_authenticated):
-                qs = self.get_queryset().filter(user = request.user)
-                if( qs.count() == 1 ):
-                    cart_obj = qs.first()
-                    print(request.user)
-                    new_obj = False
-            ## мод офф
-            else:
+            new_obj = True
+            cart = request.session.get(settings.CART_SESSION_ID)
+            if not cart:
                 cart_obj = Cart.objects.new(user = request.user)
                 new_obj = True
-                request.session['cart_id'] = cart_obj.id        
+            else:
+                cart_obj = Cart.objects.new(user = request.user)
+                for item in cart:
+                    film_obj = Film.objects.get(pk = item)
+                    obj_quantity = cart[item]['quantity']
+                    Entry.objects.create(cart=cart_obj, product=film_obj, quantity=obj_quantity)
+                
         return cart_obj, new_obj
 
 
