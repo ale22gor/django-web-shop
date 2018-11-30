@@ -5,37 +5,18 @@
 
   
 <ul>
-{% if user.is_authenticated %}
-  {% for entry in object_list %}
-    <li> <p><strong>Name:</strong> <a href="">{{ entry.product.Name }}</a></p>  <p><strong>Amount:</strong> {{ entry.quantity }}</p>
-      <form  method='POST' action="{% url "cart:update" %}">{% csrf_token %}
-        <input type="hidden" name ="id" value={{ entry.id }}>
-        {{form}}
-        <button type = 'submit' class = 'btn btn-default'>Save</button>
-       </form>
-   </li>
-   <a  href = "{% url "order:home" %}"   class = 'btn btn-default'>Order</a>
-
-  {% empty %}
-    <li>No entry yet.</li>
-  {% endfor %}
-  {% else %}
-    {% for item in cart %}
-     {% with product=item.product %}
-        <li><p>{{ product.name }}</p><p>{{ item.quantity }}</p><p class="num">${{ item.total_price }}</p>
+ {% for item in cart %}
+        <li><p>{{ item.name }}</p><p class="num">${{ item.total_price }}</p>
           <form  method='POST' action="{% url "cart:update" %}">{% csrf_token %}
-            <input type="hidden" name ="id" value={{ product.id }}>
-            {{form}}
+              {{ item.update_quantity_form.id }}
+              {{ item.update_quantity_form.quantity }} 
+              {{ item.update_quantity_form.update }}
             <button type = 'submit' class = 'btn btn-default'>Save</button>
           </form>        
         </li>
-{% endwith %}
 {% endfor %}
 
 <p class="num">${{ cart.get_total_price }}</p>
-
-      {% endif %}
-
 </ul>
   
 

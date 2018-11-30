@@ -1,9 +1,9 @@
 from decimal import Decimal
 from django.conf import settings
-from products.models import Film
+from products.models import Product
 
 
-class CartInSession(object):
+class Cart(object):
     
     def __init__(self, request):
         """
@@ -16,30 +16,36 @@ class CartInSession(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
         
-    def add(self, product, price,  quantity=1,  update_quantity=False):
-        
-        product_id = product
+    def add(self, product, quantity,  update_quantity=False):
+        product_id = str(product.id)
+        product_name = product.Name
+        price = str(product.Price)
         if product_id not in self.cart:
-            self.cart[product_id] = { 'quantity':0, 'price':str(price)}
-        if update_quantity:
-            
+            print("popalsya")
+            self.cart[product_id] = { 'id':product_id, 'name':product_name,'quantity':0, 'price':price}
+        if update_quantity:     
+            print("update")
             self.cart[product_id]['quantity'] = int(quantity)
         else:
+            print("add")
             self.cart[product_id]['quantity'] += int(quantity)
-        print(self.cart[product_id]['quantity'])
+        print(self.cart)
         self.save()
             
     def save(self):
         # update the session cart
+        print(self.cart)
         self.session[settings.CART_SESSION_ID] = self.cart
          # mark the session as "modified" to make sure it is saved
         self.session.modified = True
+        print(self.cart)
+
         
     def remove(self, product):
         """
         Remove a product from the cart.
         """
-        product_id = str(product.id)
+        product_id = str(product)
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
@@ -50,11 +56,8 @@ class CartInSession(object):
         Iterate over the items in the cart and get the products
         from the database.
         """
-        product_ids = self.cart.keys()
         # get the product objects and add them to the cart
-        products = Film.objects.filter(id__in=product_ids)
-        for product in products:
-            self.cart[str(product.id)]['product'] = product
+        
         for item in self.cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
