@@ -21,24 +21,18 @@ class Cart(object):
         product_name = product.Name
         price = str(product.Price)
         if product_id not in self.cart:
-            print("popalsya")
             self.cart[product_id] = { 'id':product_id, 'name':product_name,'quantity':0, 'price':price}
         if update_quantity:     
-            print("update")
             self.cart[product_id]['quantity'] = int(quantity)
         else:
-            print("add")
             self.cart[product_id]['quantity'] += int(quantity)
-        print(self.cart)
         self.save()
             
     def save(self):
         # update the session cart
-        print(self.cart)
         self.session[settings.CART_SESSION_ID] = self.cart
          # mark the session as "modified" to make sure it is saved
         self.session.modified = True
-        print(self.cart)
 
         
     def remove(self, product):

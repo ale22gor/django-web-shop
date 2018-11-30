@@ -1,5 +1,4 @@
-﻿from django.shortcuts import redirect
-from django.shortcuts import get_object_or_404
+﻿from django.shortcuts import get_object_or_404, redirect
 from products.models import Product
 from .forms import  UpdateForm
 from django.views import generic

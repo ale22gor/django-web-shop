@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Order</h1>
-  <p>{{user.email}} <p>
-<form  method='POST' action="{% url "order:home" %}">{% csrf_token %}
-    {{form}}
+  <h1>Checkout</h1>
+<div class="order-info">
+  <h3>Your order</h3>
+  <ul>
+    {% for item in cart %}
+    <li>
+      {{ item.quantity }} x {{ item.name }}
+      <span>${{ item.total_price }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  <p>Total: ${{ cart.get_total_price }}</p>
+</div>
+<form  method='POST' action="{% url "order:home" %} " class="order-form">{% csrf_token %}
+    {{form.as_p}}
     <button type = 'submit' class = 'btn btn-default'>Save</button>
 </form>
 

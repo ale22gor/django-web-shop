@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^account/', include(('lk.urls','lk'), namespace='account')),
     url(r'^Products/$', ProductListView.as_view(), name = 'Product-list'),
     url(r'^Product/(?P<pk>\d+)$', ProductDetailView.as_view(), name='product-detail'),
+    url(r'^Product/comment$', ProductDetailView.as_view(), name='comment-add'),
     url(r'^cart/', include(('cart.urls','cart'), namespace='cart')),
     url(r'^order/', include(('order.urls','order'), namespace='order')),
 ]
