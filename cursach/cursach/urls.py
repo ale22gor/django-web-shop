@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls import url
 from pages.views import ProductListView, ProductDetailView
 from pages.views import home_view
+from comment.views import comment_approve, comment_remove
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -26,6 +27,9 @@ urlpatterns = [
     url(r'^Products/$', ProductListView.as_view(), name = 'Product-list'),
     url(r'^Product/(?P<pk>\d+)$', ProductDetailView.as_view(), name='product-detail'),
     url(r'^Product/comment$', ProductDetailView.as_view(), name='comment-add'),
+    url(r'^comment/(?P<pk>\d+)/approve/$', comment_approve, name='comment_approve'),
+    url(r'^comment/(?P<pk>\d+)/remove/$', comment_remove, name='comment_remove'),
+
     url(r'^cart/', include(('cart.urls','cart'), namespace='cart')),
     url(r'^order/', include(('order.urls','order'), namespace='order')),
 ]

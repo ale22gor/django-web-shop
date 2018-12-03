@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from .forms import RegisterForm, LoginForm, UserEditForm
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-
+User = get_user_model()
 
 # Create your views here.
 def home_view(request):
@@ -34,12 +34,11 @@ def register_view(request):
     if request.POST:
         user_form = RegisterForm(request.POST)
         if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            # Set the chosen password
-            new_user.set_password(user_form.cleaned_data['password'])
-            # Save the User object
-            new_user.save()
-            return render(request, 'account/register_done.html', {'new_user': new_user})
+            username = user_form.cleaned_data.get("username")
+            email = user_form.cleaned_data.get("email")
+            password = user_form.cleaned_data.get("password")
+            user = User.objects.create_user(username, email, password)
+            return render(request, 'account/register_done.html', {'new_user': user})
     else:        
         user_form = RegisterForm()
     return render(request,'account/register.html',{'user_form': user_form})

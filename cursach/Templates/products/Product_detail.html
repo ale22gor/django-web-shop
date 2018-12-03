@@ -13,16 +13,29 @@
 </form>
 
 <h1>New comment</h1>
-    <form method="POST" action="{% url "product-detail" pk=product.pk %}"class="post-form">{% csrf_token %}
+    <form method="POST" action="{% url "product-detail" pk=product.pk %}" class="post-form">{% csrf_token %}
         {{ comment_form.as_p }}
         <button type="submit" class="save btn btn-default">Send</button>
     </form>
 {% for comment in product.comments.all %}
-    <div class="comment">
-        <div class="date">{{ comment.created_date }}</div>
-        <strong>{{ comment.author }}</strong>
-        <p>{{ comment.text|linebreaks }}</p>
+       {% if user.groups.all.0.name == 'Moderators' or comment.approved_comment %}
+             <div class="comment">
+                  <div class="date">
+                      {{ comment.created}}
+                      {{user}}
+                      {% if user.groups.all.0.name == 'Moderators' %}
+                         <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}">
+                           <span class="glyphicon glyphicon-remove">Remove </span>
+                         </a>
+                         <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}">
+                           <span class="glyphicon glyphicon-ok">Approve</span>
+                        </a>
+                     {% endif %}
+                  </div>
+              <strong>{{ comment.author }}</strong>
+          {{ comment.text|linebreaks }}
     </div>
+    {% endif %}
 {% empty %}
     <p>No comments here yet :(</p>
 {% endfor %}
