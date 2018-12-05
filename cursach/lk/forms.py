@@ -18,6 +18,12 @@ class RegisterForm(forms.Form):
                 if qs.exists():
                                 raise forms.ValidationError("Username is already taken")
                 return username
+        def clean_email(self):
+                email = self.cleaned_data.get("email")
+                qs = User.objects.filter(email = email)
+                if qs.exists():
+                        raise forms.ValidationError("Email is already taken")
+                return email
         
         def clean_password2(self):
                 cd = self.cleaned_data

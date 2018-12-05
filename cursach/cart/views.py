@@ -23,7 +23,9 @@ class CartView(generic.TemplateView):
 def cart_update(request):
     cart = Cart(request)
     print(request.POST)
-    form = UpdateForm(request.POST)
+    form = UpdateForm(data=request.POST)
+    print(form.is_valid())
+    
     if form.is_valid():
         cd = form.cleaned_data
         product = get_object_or_404(Product, id=cd['id'])

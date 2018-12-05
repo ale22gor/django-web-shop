@@ -30,7 +30,7 @@ class ProductDetailView(generic.DetailView):
     
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
-        context['form'] = UpdateForm(initial = {'id':self.object.pk, 'update' : False})
+        context['form'] = UpdateForm(initial = {'id':self.object.pk, 'update' : False}, max_values = {'quantity':self.object.Amount})
         context['comment_form'] = CommentForm()
         
         return context
@@ -47,7 +47,7 @@ class ProductDetailView(generic.DetailView):
             comment.product = self.object
             comment.author = self.request.user
             comment.save()
-        context['form'] = UpdateForm(initial = {'id':self.object.pk, 'update' : False})
+        context['form'] = UpdateForm(initial = {'id':self.object.pk, 'update' : False},  max_values = {'quantity':self.object.Amount})
         context['comment_form'] = CommentForm()
         return self.render_to_response(context=context)
 
