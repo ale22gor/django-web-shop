@@ -1,13 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from django.views import generic
-from .forms import OrderFormCreate
+from .forms import OrderFormCreate, AdressCreateForm
 from cart.cart import Cart
 from .models import OrderItem
 from products.models import Product
 
 
 # Create your views here.
-from django.contrib.auth import  get_user_model
+
+def create_address(request):
+    if request.POST:
+            form = AdressCreateForm(request.POST)
+            if form.is_valid():
+                order = form.save()
+                return render(request, 'Order/created.html' ,{'form': form})
+    form = AdressCreateForm()
+    return render(request,'Order/created.html',{ 'form': form})
 
 def create_order(request):
     cart = Cart(request)
@@ -21,6 +29,8 @@ def create_order(request):
 
                 print(order.get_total_cost())
                 cart.clear()
-                return render(request, 'Order/created.html' ,{'order': order, 'order_total':order.get_total_cost()})
+                print('a')
+                return redirect('order:address')
     form = OrderFormCreate()
     return render(request,'Order/home.html',{ 'cart':cart, 'form': form})
+

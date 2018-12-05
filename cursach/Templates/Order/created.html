@@ -2,7 +2,9 @@
 Thank you
 {% block content %}
 <h1>Thank you</h1>
-<p>Your order has been successfully completed. Your order number is
-<strong>{{order.id}}</strong>.</p>
-<p>{{order_total}}</p>
+<p>Your order has been successfully completed. </p>
+<form  method='POST' action="{% url "order:address" %} " class="order-form">{% csrf_token %}
+    {{form.as_p}}
+    <button type = 'submit' class = 'btn btn-default'>Save</button>
+</form>
 {% endblock %}
