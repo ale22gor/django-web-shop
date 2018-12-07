@@ -7,30 +7,30 @@ from products.models import Product
 
 
 # Create your views here.
-
-def create_address(request):
-    if request.POST:
-            form = AdressCreateForm(request.POST)
-            if form.is_valid():
-                order = form.save()
-                return render(request, 'Order/created.html' ,{'form': form})
-    form = AdressCreateForm()
-    return render(request,'Order/created.html',{ 'form': form})
-
 def create_order(request):
     cart = Cart(request)
     if request.POST:
-            form = OrderFormCreate(request.POST)
-            if form.is_valid():
-                order = form.save()
+            order_form = OrderFormCreate(request.POST)
+            address_form = AdressCreateForm(request.POST)
+            if order_form.is_valid():
+                order = order_form.save()
+                if address_form.is_valid():
+                    EmptyFields = False
+                    if None in address_form.cleaned_data.values():
+                            EmptyFields = True
+                    if not EmptyFields:
+                        address = address_form.save(commit=False)
+                        address.order = order
+                        address.save()
                 for item in cart:
                     ##not safe chnge to get product by id
-                    OrderItem.objects.create(order = order, product = Product.objects.get(id = item['id']), quantity = item['quantity'])
-
-                print(order.get_total_cost())
+                    order_product = Product.objects.get(id = item['id'])
+                    order_quantity = item['quantity']
+                    OrderItem.objects.create(order = order,product = order_product, quantity = order_quantity)
+                    order_product.ReduceAmount(order_quantity)
                 cart.clear()
-                print('a')
-                return redirect('order:address')
-    form = OrderFormCreate()
-    return render(request,'Order/home.html',{ 'cart':cart, 'form': form})
+                return redirect('Order/home.html')
+    order_form = OrderFormCreate()
+    address_form = AdressCreateForm()
+    return render(request,'Order/home.html',{ 'cart':cart, 'order_form': order_form, 'address_form':address_form})
 

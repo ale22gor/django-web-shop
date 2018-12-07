@@ -9,3 +9,6 @@ class Product(models.Model):
     Descr = models.TextField()
     BuyPrice = models.DecimalField(default = 0.00, max_digits=100, decimal_places=2)
     
+    def ReduceAmount(self,value):
+        self.Amount -= value
+        self.save()

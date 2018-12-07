@@ -15,7 +15,8 @@
   <p>Total: ${{ cart.get_total_price }}</p>
 </div>
 <form  method='POST' action="{% url "order:home" %} " class="order-form">{% csrf_token %}
-    {{form.as_p}}
+    {{order_form.as_p}}
+    {{address_form.as_p}}
     <button type = 'submit' class = 'btn btn-default'>Save</button>
 </form>
 

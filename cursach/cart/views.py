@@ -15,7 +15,8 @@ class CartView(generic.TemplateView):
         context = super(CartView, self).get_context_data(**kwargs)
         cart =  Cart(self.request)
         for item in cart:
-            item['update_quantity_form'] = UpdateForm(initial={'id':item['id'], 'quantity': item['quantity'],'update': True})
+            product = get_object_or_404(Product, id=item['id'])
+            item['update_quantity_form'] = UpdateForm(initial={'id':item['id'], 'quantity': item['quantity'],'update': True}, max_values = {'quantity':product.Amount})
         context['cart'] = Cart(self.request)
         return context
     

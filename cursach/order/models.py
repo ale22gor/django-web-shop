@@ -19,7 +19,7 @@ class Order(models.Model):
         return sum(item.get_cost() for item in self.items.all())
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, null=True, blank=True, related_name='items', on_delete = 'Protect')
+    order = models.ForeignKey(Order, null=True, blank=True, related_name='items', on_delete = 'Cascade')
     product = models.ForeignKey(Product, null=True, blank=True, on_delete = 'Protect', related_name='product_items')
     quantity = models.IntegerField()
     
@@ -27,7 +27,8 @@ class OrderItem(models.Model):
         return self.product.Price * self.quantity
     
 class Adress(models.Model):
-    city = models.CharField(max_length=250)
-    street = models.CharField(max_length=250)
-    house = models.CharField(max_length=250)
-    flat = models.CharField(max_length=250)
+    order = models.ForeignKey(Order, null=True, blank=True, related_name='order', on_delete = 'Cascade')
+    city = models.CharField(max_length=250, blank=True, null=True)
+    street = models.CharField(max_length=250, blank=True, null=True)
+    house = models.CharField(max_length=250, blank=True, null=True)
+    flat = models.CharField(max_length=250, blank=True, null=True)
