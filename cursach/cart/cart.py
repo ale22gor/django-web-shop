@@ -20,8 +20,12 @@ class Cart(object):
         product_id = str(product.id)
         product_name = product.Name
         price = str(product.Price)
+        if product.Image:
+            product_image_url = product.Image.url
+        else:
+            product_image_url = None;
         if product_id not in self.cart:
-            self.cart[product_id] = { 'id':product_id, 'name':product_name,'quantity':0, 'price':price}
+            self.cart[product_id] = { 'id':product_id, 'name':product_name,'quantity':0, 'price':price, 'image_url':product_image_url}
         if update_quantity:     
             self.cart[product_id]['quantity'] = int(quantity)
         else:

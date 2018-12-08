@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect, reverse
-from django.views import generic
+from django.shortcuts import render, redirect
 from .forms import OrderFormCreate, AdressCreateForm
 from cart.cart import Cart
 from .models import OrderItem

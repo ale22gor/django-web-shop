@@ -3,6 +3,6 @@ from .views import   create_order
 
 
 urlpatterns = [    
-    url(r'^$', create_order, name='home'),
+    url(r'$', create_order, name='home'),
 
 ]

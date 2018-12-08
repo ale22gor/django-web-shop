@@ -16,20 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
-from pages.views import ProductListView, ProductDetailView
 from pages.views import home_view
 from comment.views import comment_approve, comment_remove
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^home/$', home_view),
+    url(r'^$', home_view),
     url(r'^account/', include(('lk.urls','lk'), namespace='account')),
-    url(r'^Products/$', ProductListView.as_view(), name = 'Product-list'),
-    url(r'^Product/(?P<pk>\d+)$', ProductDetailView.as_view(), name='product-detail'),
-    url(r'^Product/comment$', ProductDetailView.as_view(), name='comment-add'),
-    url(r'^comment/(?P<pk>\d+)/approve/$', comment_approve, name='comment_approve'),
-    url(r'^comment/(?P<pk>\d+)/remove/$', comment_remove, name='comment_remove'),
-
+    url(r'^product/', include(('products.urls','products'), namespace='product')),
     url(r'^cart/', include(('cart.urls','cart'), namespace='cart')),
     url(r'^order/', include(('order.urls','order'), namespace='order')),
+    url(r'^comment/', include(('comment.urls','comment'), namespace='comment')),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
