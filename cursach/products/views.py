@@ -47,12 +47,13 @@ class ProductDetailView(generic.DetailView):
         form = CommentForm(self.request.POST)
         self.object = self.get_object()
         context = super(ProductDetailView, self).get_context_data(**kwargs)
-        qs = Comment.objects.filter(author=request.user).filter(product = self.object)
-        if form.is_valid() and self.request.user.is_authenticated and qs.count() < 1:
-            comment = form.save(commit=False)
-            comment.product = self.object
-            comment.author = self.request.user
-            comment.save()
+        if form.is_valid() and self.request.user.is_authenticated :
+            qs = Comment.objects.filter(author=request.user).filter(product = self.object)
+            if qs.count() < 1:
+                comment = form.save(commit=False)
+                comment.product = self.object
+                comment.author = self.request.user
+                comment.save()
         context['form'] = UpdateForm(initial = {'id':self.object.pk, 'update' : False},  max_values = {'quantity':self.object.Amount})
         context['comment_form'] = CommentForm()
         return self.render_to_response(context=context)
