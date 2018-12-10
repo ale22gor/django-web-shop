@@ -125,10 +125,40 @@ ul.errorlist {
 #subheader {
     background:#ececec;
     color:#444;
-    padding:15px 100px;
+    padding:0px 100px;
     overflow:auto;
 }
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  background-color: #ececec;
+}
 
+.navbar li {
+  float: left;
+}
+
+.navbar li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar .cart {
+    float:right;
+}
+.navbar .active {
+  background-color: #77b6e2;
+}
+
+/* Change the link color to #111 (black) on hover */
+.navbar li a:hover {
+  background-color: #5993bb;
+}
 #header .logo {
     font-family: 'Ubuntu', sans-serif;
     float:left;
@@ -137,10 +167,7 @@ ul.errorlist {
     margin-right:10%;
 }
 
-#subheader .cart {
-    float:right;
-    padding-top:4px;
-}
+
 
 #content {
     padding:0 100px;
@@ -321,3 +348,4 @@ ul.errorlist {
 .recommendations.cart img {
     width:120px;
 }
+

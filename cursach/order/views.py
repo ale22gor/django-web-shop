@@ -3,6 +3,7 @@ from .forms import OrderFormCreate, AdressCreateForm
 from cart.cart import Cart
 from .models import OrderItem
 from products.models import Product
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -25,6 +26,8 @@ def create_order(request):
                     ##not safe chnge to get product by id
                     order_product = Product.objects.get(id = item['id'])
                     order_quantity = item['quantity']
+                    if order_product.Amount < order_quantity:
+                        return HttpResponse('Invalid login')
                     OrderItem.objects.create(order = order,product = order_product, quantity = order_quantity)
                     order_product.ReduceAmount(order_quantity)
                 cart.clear()

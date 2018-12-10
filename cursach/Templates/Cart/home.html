@@ -3,6 +3,9 @@
 
 {% block content %}
  <h1>Your shopping cart</h1>
+{% if cart|length <= 0 %}
+<p>Cart is Empty</p>
+{% else %}
   <table class="cart">
    <thead>
      <tr>
@@ -45,8 +48,8 @@
 </table>
 <p class="text-right">
   <a href="{% url "product:list" %}" class="buttonlight">Continue shopping</a>
-  <a href = "{% url "order:home" %}" class="button">Order</a>
+  <a href="{% url "order:home" %}" class="button">Order</a>
 </p>
-
+{% endif %}
 
 {% endblock %}

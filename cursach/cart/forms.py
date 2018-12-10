@@ -5,7 +5,7 @@ class UpdateForm(forms.Form):
                 super(UpdateForm, self).__init__(*args, **kwargs)
                 ##print(kwargs)
                 if max_values is not None:
-                        self.fields['quantity'] = forms.IntegerField(max_value=max_values['quantity'])
+                        self.fields['quantity'] = forms.IntegerField(min_value = 0, max_value=max_values['quantity'])
         id = forms.IntegerField(min_value = 0, widget = forms.HiddenInput)
-        quantity = forms.IntegerField(min_value = 0)
+        quantity = forms.IntegerField()
         update = forms.BooleanField(required = False, initial = False, widget = forms.HiddenInput)

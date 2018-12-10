@@ -28,3 +28,9 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+    
+class CommentSummary(Comment):
+    class Meta:
+        proxy = True
+        verbose_name = 'Comment Summary'
+        verbose_name_plural = 'Comments Summary'

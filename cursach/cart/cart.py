@@ -27,7 +27,10 @@ class Cart(object):
         if product_id not in self.cart:
             self.cart[product_id] = { 'id':product_id, 'name':product_name,'quantity':0, 'price':price, 'image_url':product_image_url}
         if update_quantity:     
-            self.cart[product_id]['quantity'] = int(quantity)
+            if int(quantity) == 0:
+                self.remove(product)
+            else:
+                self.cart[product_id]['quantity'] = int(quantity)
         else:
             self.cart[product_id]['quantity'] += int(quantity)
         self.save()
