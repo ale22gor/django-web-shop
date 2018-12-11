@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, get_user_model
 from .forms import RegisterForm, LoginForm, UserEditForm
 from django.http import HttpResponse
@@ -21,7 +21,7 @@ def login_view(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse('Authenticated succsefully')
+                    return redirect('account:home')
                 else:
                     return HttpResponse('Disabled account')
             else:

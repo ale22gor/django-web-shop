@@ -11,11 +11,11 @@ class ProductListView(generic.ListView):
     model = Product
     paginate_by = 10
     def get_queryset(self):
-        queryset = Product.objects.all()
         if self.request.GET:
             category = self.request.GET['category']
-            print(category)
             queryset = Product.objects.filter(Category = category)
+        else:
+            queryset = Product.objects.all()
         return queryset
 
     

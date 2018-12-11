@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import OrderFormCreate, AdressCreateForm
 from cart.cart import Cart
-from .models import OrderItem
+from .models import OrderItem, Order
 from products.models import Product
 from django.http import HttpResponse
+from django.views import generic
+
 
 
 # Create your views here.
@@ -13,7 +15,9 @@ def create_order(request):
             order_form = OrderFormCreate(request.POST)
             address_form = AdressCreateForm(request.POST)
             if order_form.is_valid():
-                order = order_form.save()
+                order = order_form.save(commit=False)
+                order.user = request.user
+                order.save()
                 if address_form.is_valid():
                     EmptyFields = False
                     if None in address_form.cleaned_data.values():
@@ -35,4 +39,18 @@ def create_order(request):
     order_form = OrderFormCreate()
     address_form = AdressCreateForm()
     return render(request,'Order/home.html',{ 'cart':cart, 'order_form': order_form, 'address_form':address_form})
+class OrderList(generic.ListView):
+    model = Order
+    template_name ="account/order_list.html"
+    
+    def get_queryset(self):
+        queryset = Order.objects.filter(user = self.request.user)
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        # В первую очередь получаем базовую реализацию контекста
+        context = super(OrderList, self).get_context_data(**kwargs)
+        # Добавляем новую переменную к контексту и иниуиализируем ее некоторым значением
+        
+        return context
 

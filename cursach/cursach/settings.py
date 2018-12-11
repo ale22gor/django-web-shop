@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'order',
     'lk',
     'comment',
+    'search',
 ]
 
 MIDDLEWARE = [

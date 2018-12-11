@@ -7,7 +7,8 @@
   <li><a href="{{ home }}" {% if request.path == home %}class="active"{% endif %}>Home</a></li>
   <li><a href="{{ product_list }}" {% if request.path == product_list %}class="active"{% endif %}>Products</a></li>
   <li><a href="{{ account }}" {% if request.path == account %}class="active"{% endif %}>Account</a></li>
-  <li style="float:right" class="cart">
+    <li style="float:right">{% include "search.html" %}</li>
+    <li style="float:right" class="cart">
         {% with total_items=cart|length %}
         {% if cart|length > 0 %}
             <a href="{{ cart_home }}" {% if request.path == cart_home %}class="active"{% endif %}>
@@ -20,5 +21,12 @@
         {% endif %}
         {% endwith %}
   </li>
+    <li style="float:right"><a href = "{% url "account:register" %}">Register</a></li>
+    {% if request.user.is_authenticated %}
+    <li style="float:right"><a href = "{% url "account:logout" %}">Logout</a></li>
+  {% else %}
+    <li style="float:right"><a href = "{% url "account:login" %}">Login</a></li>
+  {% endif %}
+
 </ul>
 </div>

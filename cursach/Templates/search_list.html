@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+         Товары
+{% endblock %}
+{% block content %}
+{% for product in object_list %}
+    <div class="item">
+    <a href="{{ product.get_absolute_url }}">
+    <img src="{% if product.Image %}{{ product.Image.url }}{%else %}{% static "img/no_image.svg" %}{% endif %}"></a>
+    <a href="{{ product.get_absolute_url }}">{{ product.Name }}</a><br>
+    ${{ product.Price }}
+    </div>
+{% endfor %}
+{% endblock %}

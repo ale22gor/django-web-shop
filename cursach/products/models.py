@@ -8,7 +8,6 @@ class Product(models.Model):
         ('Action', 'Action'),
         ('Commedy', 'Commedy'),
     )
-    
     Name = models.CharField(max_length = 64)
     Amount = models.IntegerField()
     Price = models.DecimalField(default = 0.00, max_digits=100, decimal_places=2)

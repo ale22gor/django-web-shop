@@ -20,11 +20,12 @@ from pages.views import home_view
 from comment.views import comment_approve, comment_remove
 from django.conf import settings
 from django.conf.urls.static import static
-
+from search.views import SearchListView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_view,name ="home"),
+    url(r'^search$', SearchListView.as_view(),name ="search"),
     url(r'^account/', include(('lk.urls','lk'), namespace='account')),
     url(r'^product/', include(('products.urls','products'), namespace='product')),
     url(r'^cart/', include(('cart.urls','cart'), namespace='cart')),
