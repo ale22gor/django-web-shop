@@ -5,6 +5,8 @@
          Товары
 {% endblock %}
 {% block content %}
+<div id="main" class="product-list">
+
 {% for product in object_list %}
     <div class="item">
     <a href="{{ product.get_absolute_url }}">
@@ -13,4 +15,5 @@
     ${{ product.Price }}
     </div>
 {% endfor %}
+</div>
 {% endblock %}

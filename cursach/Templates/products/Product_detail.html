@@ -15,13 +15,14 @@
         {{form}}
         <button type = 'submit' class = 'btn btn-default'>Add to cart</button>
 </form>
+  <div class = "description">
   {{ product.Descr|linebreaks }}
-
+  </div>
 </div>
 <div class="comments">
     <form method="POST" action="{% url "product:detail" pk=product.pk %}" class="post-form">{% csrf_token %}
         {{ comment_form.as_p }}
-        <button type="submit" class="save btn btn-default">Send</button>
+    <button type="submit" class="save btn btn-default">Send</button>
     </form>
 {% for comment in product.comments.all %}
        {% if user.groups.all.0.name == 'Moderators' or comment.approved_comment %}
@@ -39,7 +40,7 @@
                   </div>
               <strong>{{ comment.author }}</strong>
               <p> Raiting:{{ comment.rating }}<p>
-              {{ comment.text|linebreaks }}
+              <div class="comment">{{ comment.text|linebreaks }}<div>
             </div>
     {% endif %}
 {% empty %}

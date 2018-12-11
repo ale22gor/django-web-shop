@@ -31,7 +31,7 @@ def create_order(request):
                     order_product = Product.objects.get(id = item['id'])
                     order_quantity = item['quantity']
                     if order_product.Amount < order_quantity:
-                        return HttpResponse('Invalid login')
+                        return HttpResponse('Aleady bought')
                     OrderItem.objects.create(order = order,product = order_product, quantity = order_quantity)
                     order_product.ReduceAmount(order_quantity)
                 cart.clear()

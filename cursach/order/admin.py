@@ -20,6 +20,16 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [AdressItemInline, OrderItemInline]
 
 admin.site.register(Order,OrderAdmin)
+
+def get_next_in_date_hierarchy(request, date_hierarchy):
+    if date_hierarchy + '__day' in request.GET:
+        return 'hour'
+    if date_hierarchy + '__month' in request.GET:
+        return 'day'
+    if date_hierarchy + '__year' in request.GET:
+        return 'week'
+    return 'month'
+
 @admin.register(OrderSummary)
 
 
@@ -53,12 +63,16 @@ class OrderSummaryAdmin(admin.ModelAdmin):
         response.context_data['summary_total'] = dict(
             qs.aggregate(**metrics)
         )
+        
+        period = get_next_in_date_hierarchy(
+            request,
+            self.date_hierarchy,
+        )
+        response.context_data['period'] = period
+        
+        
         summary_over_time = qs.annotate(
-            period=Trunc(
-                'created',
-                'day',
-                output_field=models.DateTimeField(),
-            ),
+            period=Trunc('created', period, output_field=models.DateTimeField(),),
         ).values('period').annotate(total=Sum('product__Price')).order_by('period')
         summary_range = summary_over_time.aggregate(
             low=Min('total'),
@@ -74,6 +88,7 @@ class OrderSummaryAdmin(admin.ModelAdmin):
                if high > low else 0,
         } for x in summary_over_time]
         
-        list_filter = [ 'created']
-
+        list_filter = (
+            'product__Category',
+        )
         return response

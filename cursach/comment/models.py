@@ -16,7 +16,7 @@ class Comment(models.Model):
     
     product = models.ForeignKey(Product, related_name='comments', on_delete = 'Protect')
     author = models.ForeignKey(User, on_delete = 'Protect')
-    text = models.TextField()
+    text = models.TextField(max_length = 1000)
     rating = models.DecimalField(default = 1, choices = RATING_CHOICES, max_digits=3, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     approved_comment = models.BooleanField(default=False)
