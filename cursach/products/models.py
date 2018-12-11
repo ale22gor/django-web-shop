@@ -13,7 +13,7 @@ class Product(models.Model):
     Amount = models.IntegerField()
     Price = models.DecimalField(default = 0.00, max_digits=100, decimal_places=2)
     Descr = models.TextField()
-    BuyPrice = models.DecimalField(default = 0.00, max_digits=100, decimal_places=2)
+    PurchaisePrice = models.DecimalField(default = 0.00, max_digits=100, decimal_places=2)
     Category = models.CharField(null=True, blank=True, max_length=10, choices=CATEGORY_CHOICES)
     Image = models.ImageField(upload_to='static/products/%Y/%m/%d',blank=True)
     

@@ -35,16 +35,20 @@ class OrderSummaryAdmin(admin.ModelAdmin):
             qs = response.context_data['cl'].queryset
         except (AttributeError, KeyError):
             return response
-        
+        SalesQs = Sum('product__Price')
+        ExpenseQs = Sum('product__PurchaisePrice')
+        SurplusQs = SalesQs - ExpenseQs
         metrics = {
             'total': Sum('quantity'),
-            'total_sales': Sum('product__Price'),
+            'total_sales': SalesQs,
+            'expenses': ExpenseQs,
+            'surplus': SurplusQs,
         }
         response.context_data['summary'] = list(
             qs
             .values('product__Category')
             .annotate(**metrics)
-            .order_by('-total_sales')
+            .order_by('-expenses')
         )
         response.context_data['summary_total'] = dict(
             qs.aggregate(**metrics)
