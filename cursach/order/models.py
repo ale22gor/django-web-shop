@@ -43,3 +43,5 @@ class OrderSummary(OrderItem):
         proxy = True
         verbose_name = 'Order Summary'
         verbose_name_plural = 'Orders Summary'
+
+

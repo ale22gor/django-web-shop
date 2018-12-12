@@ -15,7 +15,11 @@ class OrderItemInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'first_name', 'last_name', 'email',
     'paid','created', 'updated']
-    list_filter = ['paid', 'created', 'updated']
+    list_filter = (
+                    'paid', 
+                   'created',
+                   'updated',
+                  )
     list_editable = ['paid']
     inlines = [AdressItemInline, OrderItemInline]
 
@@ -36,6 +40,12 @@ def get_next_in_date_hierarchy(request, date_hierarchy):
 class OrderSummaryAdmin(admin.ModelAdmin):
     change_list_template = 'admin/order_summary_change_list.html'
     date_hierarchy = 'created'
+    search_fields = ['order__user__username']
+    list_filter = (
+            ('product__Category'),
+            'product',
+            'created',
+        )
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(
             request,
@@ -88,7 +98,5 @@ class OrderSummaryAdmin(admin.ModelAdmin):
                if high > low else 0,
         } for x in summary_over_time]
         
-        list_filter = (
-            'product__Category',
-        )
+        
         return response

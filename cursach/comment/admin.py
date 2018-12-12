@@ -18,11 +18,12 @@ class CommentSummaryAdmin(admin.ModelAdmin):
         except (AttributeError, KeyError):
             return response
         metrics = {
+            'count': Count('id'),
             'total': Avg('rating'),
         }
         response.context_data['summary'] = list(
             qs
-            .values('product')
+            .values('product__Name')
             .annotate(**metrics)
             .order_by('-total')
         )

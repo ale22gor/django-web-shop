@@ -26,6 +26,9 @@
         <th>
             <h2>Created</h2>
         </th>
+        <th>
+            <h2>Price</h2>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -35,7 +38,9 @@
         <td> {{ order.last_name }} </td>
         <td> {{ order.email }} </td>
         <td> {{ order.paid }} </td>
-        <td> {{ order.created }} </td>        
+        <td> {{ order.created }} </td>
+        <td> {{ order.get_total_cost }}$ </td>        
+
       </tr>
 {% endfor %}
         </tbody>
