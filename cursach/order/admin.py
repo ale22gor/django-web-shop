@@ -40,10 +40,9 @@ def get_next_in_date_hierarchy(request, date_hierarchy):
 class OrderSummaryAdmin(admin.ModelAdmin):
     change_list_template = 'admin/order_summary_change_list.html'
     date_hierarchy = 'created'
-    search_fields = ['order__user__username']
+    search_fields = ['order__user__username', 'product__Name']
     list_filter = (
             ('product__Category'),
-            'product',
             'created',
         )
     def changelist_view(self, request, extra_context=None):
