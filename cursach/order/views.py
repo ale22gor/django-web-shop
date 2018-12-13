@@ -5,7 +5,11 @@ from .models import OrderItem, Order
 from products.models import Product
 from django.http import HttpResponse
 from django.views import generic
+from .tasks import order_created
+from datetime import datetime, timedelta
 
+# import celery
+from cursach.celery import app as celery_app
 
 
 # Create your views here.
@@ -35,6 +39,8 @@ def create_order(request):
                     OrderItem.objects.create(order = order,product = order_product, quantity = order_quantity)
                     order_product.ReduceAmount(order_quantity)
                 cart.clear()
+                order_created.apply_async((order.id,),eta = datetime.now() + timedelta(seconds=10))
+
                 return redirect('Order/home.html')
     order_form = OrderFormCreate()
     address_form = AdressCreateForm()

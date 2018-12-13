@@ -14,6 +14,9 @@ CART_SESSION_ID = 'cart'
 
 import os
 
+CELERY_BROKER_URL = 'amqp://localhost'
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TAMPLATE_DIR = os.path.join(BASE_DIR, './Templates')
@@ -31,6 +34,7 @@ SECRET_KEY = 'n6+*9k_g9v(e#07!l%)7+&&40c&k)4e@t@+#4jv=43fo(b^(ra'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 
 # Application definition

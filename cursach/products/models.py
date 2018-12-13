@@ -19,7 +19,11 @@ class Product(models.Model):
     def ReduceAmount(self,value):
         self.Amount -= value
         self.save()
-        
+
+    def IncreaseAmount(self,value):
+        self.Amount += value
+        self.save()
+    
     def get_absolute_url(self):
         return reverse('product:detail', args=[str(self.id)])
     
