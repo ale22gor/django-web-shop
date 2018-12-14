@@ -1,4 +1,0 @@
-так блять 
-
-virtualenv - workon cursach
-cellery - celery worker --app=cursach.celeryapp:app
