@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+        Заказы
+{% endblock %}
+{% block content %}
+{% include "account_navbar.html" %}
+<div id="main" class="product-list" style = "width:70%; padding-top:30px;">
+
+    <table>
+    <thead>
+      <tr>
+        <th>
+            <h2>First Name</h2>
+        </th>
+        <th>
+            <h2>Last Name</h2>
+        </th>
+        <th>
+            <h2>Email</h2>
+        </th>
+        <th>
+            <h2>Paid</h2>
+        </th>
+        <th>
+            <h2>Created</h2>
+        </th>
+        <th>
+            <h2>Price</h2>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+{% for order in object_list %}
+      <tr class="">
+        <td> {{ order.first_name }} </td>
+        <td> {{ order.last_name }} </td>
+        <td> {{ order.email }} </td>
+        <td> {{ order.paid }} </td>
+        <td> {{ order.created }} </td>
+        <td> {{ order.get_total_cost }}$ </td>        
+
+      </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

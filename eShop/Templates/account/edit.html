@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "account_navbar.html" %}
+<div id="main" class="product-list" style = "width:70%; padding-top:30px;">
+    <h1>Edit your account</h1>
+        <p>You can edit your account using the following form:</p>
+        <form action="." method="post" enctype="multipart/form-data">
+            {{ user_form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Save changes"></p>
+        </form>
+<div>
+
+
+{% endblock %}
