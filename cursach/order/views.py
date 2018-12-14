@@ -9,7 +9,7 @@ from .tasks import order_created
 from datetime import datetime, timedelta
 
 # import celery
-from cursach.celery import app as celery_app
+from cursach.celeryapp import app as celery_app
 
 
 # Create your views here.
