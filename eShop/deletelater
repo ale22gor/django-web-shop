@@ -1,0 +1,2 @@
+# route | awk ‘/^default/ { print $2 }’
+docker run -v /home/dmitry/WorkSpace/eShop/eShop/ngnix.conf:/etc/nginx/conf.d/default.conf:ro -v /home/dmitry/WorkSpace/eShop/serverStatic/:/usr/share/nginx/djangodocker/static/ -p 80:80 nginx
