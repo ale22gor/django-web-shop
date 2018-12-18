@@ -14,7 +14,8 @@ CART_SESSION_ID = 'cart'
 
 import os
 
-CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL ='amqp://admin:mypass@rabbit:5672//',
+
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -101,7 +102,7 @@ DATABASES = {
     'NAME': 'djangodocker_db',
     'USER': 'root',
     'PASSWORD': '555236',
-    'HOST': '127.0.0.1', # Or an IP Address that your DB is hosted on
+    'HOST': 'db', # Or an IP Address that your DB is hosted on
     'PORT': '3306',
   }
 }
