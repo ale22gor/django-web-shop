@@ -12,9 +12,10 @@ class SearchListView(generic.ListView):
     def get_queryset(self):
         if self.request.GET:
             product_name = self.request.GET['product_name']
-            queryset = Product.objects.filter(Name__icontains = product_name)
-        else:
-            queryset = Product.objects.none()
+            if product_name:
+                queryset = Product.objects.filter(Name__icontains = product_name)
+                return queryset
+        queryset = Product.objects.none()
         return queryset
 
     

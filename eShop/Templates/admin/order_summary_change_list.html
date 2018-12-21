@@ -11,7 +11,7 @@
       <tr>
         <th>
           <div class="text">
-            <a href="#">Category</a>
+            <a href="#">Name</a>
           </div>
         </th>
         <th>
@@ -64,7 +64,7 @@
     <tbody>
       {% for row in summary %}
       <tr class="">
-        <td> {{ row.product__Category }} </td>
+        <td> {{ row.product__Name }} </td>
         <td> {{ row.total }} </td>
         <td> {{ row.total_sales | default:0 }}$ </td>
         <td>

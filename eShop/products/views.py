@@ -1,9 +1,9 @@
-from django.shortcuts import get_object_or_404
 from cart.forms import UpdateForm
 from django.views import generic
 from .models import Product
 from comment.forms import CommentForm
 from comment.models import Comment
+from django.http import Http404
 
 
 
@@ -13,9 +13,12 @@ class ProductListView(generic.ListView):
     def get_queryset(self):
         if self.request.GET:
             category = self.request.GET['category']
-            queryset = Product.objects.filter(Category = category)
-        else:
-            queryset = Product.objects.all()
+            if category:
+                queryset = Product.objects.filter(Category = category)
+                if not queryset:
+                    raise Http404("No Category matches the given query.")
+                return queryset
+        queryset = Product.objects.all()
         return queryset
 
     

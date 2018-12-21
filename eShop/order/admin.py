@@ -65,7 +65,7 @@ class OrderSummaryAdmin(admin.ModelAdmin):
         }
         response.context_data['summary'] = list(
             qs
-            .values('product__Category')
+            .values('product__Name')
             .annotate(**metrics)
             .order_by('-expenses')
         )

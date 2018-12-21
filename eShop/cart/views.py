@@ -1,4 +1,4 @@
-﻿from django.shortcuts import get_object_or_404, redirect
+﻿from django.shortcuts import get_object_or_404, get_list_or_404, redirect
 from products.models import Product
 from .forms import  UpdateForm
 from django.views import generic
@@ -14,19 +14,23 @@ class CartView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(CartView, self).get_context_data(**kwargs)
         cart =  Cart(self.request)
-        for item in cart:
-            product = get_object_or_404(Product, id=item['id'])
-            item['update_quantity_form'] = UpdateForm(initial={'id':item['id'], 'quantity': item['quantity'],'update': True}, max_values = {'quantity':product.Amount})
+        product_id = cart.get_all_products_id()
+        if len(product_id) > 0:
+            products = get_list_or_404(Product, id__in = cart.get_all_products_id())
+            for item in cart:
+                id = int(item['id'])
+                product = [product for product in products if product.id == id]
+                if len(product) == 1:
+                    amount = product[0].Amount
+                    item['update_quantity_form'] = UpdateForm(initial={'id':item['id'], 'quantity': item['quantity'],'update': True},
+                                                              max_values = {'quantity':amount})       
         context['cart'] = Cart(self.request)
         return context
     
 @require_POST
 def cart_update(request):
     cart = Cart(request)
-    print(request.POST)
     form = UpdateForm(data=request.POST)
-    print(form.is_valid())
-    
     if form.is_valid():
         cd = form.cleaned_data
         product = get_object_or_404(Product, id=cd['id'])

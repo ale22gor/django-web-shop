@@ -48,6 +48,7 @@ def create_order(request):
     order_form = OrderFormCreate()
     address_form = AdressCreateForm()
     return render(request,'Order/home.html',{ 'cart':cart, 'order_form': order_form, 'address_form':address_form})
+
 class OrderList(generic.ListView):
     model = Order
     template_name ="account/order_list.html"
